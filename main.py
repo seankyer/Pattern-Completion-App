@@ -124,6 +124,97 @@ def build_type(inp_string):
             inp_string = re.sub(r'^[a-z]', "", inp_string, 1)
     return inp_type
 
+# detect if given input has repetition
+def detect_rep(inp):
+    last = inp[len(inp) - 1]
+    return inp.index(last) < len(inp) - 1
+
+# # finds the next letter from repeated input
+# def get_next_rep_letter(inp, outp):
+#     if (len(outp) == 0) :
+#         target = inp[len(inp) - 1])
+#         return str(inp[inp.index(target) + 1])
+#     else :
+#         target = str(outp[len(outp) - 1])
+#         return str(inp[inp.index(target) + 1])
+
+# find the next value from given input
+def get_next_rep(inp, next_val):
+    # if (len(outp) == 0) :
+    #     target = inp[len(inp) - 1]
+    #     print(type(target))
+    #     return inp[inp.index(int(target)) + 1]
+    # else :
+    #     target = outp[len(outp) - 1]
+    # print(type(next_val))
+    # print(type(inp[0]))
+    return inp[inp.index(next_val) + 1]
+
+# return a vector of prediction for repeated numbers
+def rep_nums(inp, n):
+    out = []
+    next_n = inp[0]
+    if (detect_rep(inp)):
+        print("nums rep detected")
+        for x in range(n):
+            out.append(get_next_rep(inp, next_n))
+            next_n = out[len(out) - 1]
+    else:
+        for x in range(n):
+            if (x < len(inp)):
+                out.append(inp[x])
+            else:
+                out.append(inp[x % len(inp)])
+    return out
+
+# return a vector of prediction for repeated letter
+def rep_letters(inp_list, offset, n):
+    out = []
+    next_l = to_base26((inp_list[0]), offset)
+    for pos in range(len(inp_list)):
+        inp_list[pos] = to_base26(inp_list[pos], offset)
+        # print(type(inp_list[pos]))
+    if (detect_rep(inp_list)): 
+        print("letters rep detected")
+        for x in range(n):
+            out.append(letters_from_base26(get_next_rep(inp_list, next_l), offset))
+            next_l = to_base26(out[len(out) - 1], offset)
+    else:
+        for x in range(n):
+            if (x < len(inp_list)):
+                out.append(letters_from_base26(inp_list[x], offset))
+            else:
+                out.append(letters_from_base26(inp_list[x % len(inp_list)], offset))
+              
+    return out
+
+# Generate pattern for repeated input
+def gen_rep(p, n):
+    
+    
+    # pattern detection, would be nice to implement
+    # for x in inp:
+    #     if (detect_lin(x)): 
+    #         generate_reg(x)
+    #     elif (detect_rep(x)):
+    #         generate_rep(x)
+    #     else:
+    #         print("no pattern detected")
+    out = []
+    for i in range(n):
+        out.append("")
+    for ele in p:
+        seq_list = ele[1:]
+        if ele[0] == "C":
+            list_concat(out, rep_letters(seq_list, 65, n))
+        elif ele[0] == "L":
+            list_concat(out, rep_letters(seq_list, 97, n))
+        elif ele[0] == "N":
+            list_concat(out, rep_nums(seq_list, n))
+    return out
+    
+
+
 
 if __name__ == '__main__':
     seq_list = get_user_pattern()
@@ -135,4 +226,6 @@ if __name__ == '__main__':
         else:
             seq_valid = seq_type == build_type(seq_list[pos])
     if seq_valid:
-        print(generate_predictions(parse_pattern(seq_type, seq_list), 5))
+        inp = parse_pattern(seq_type, seq_list)
+        print(generate_predictions(inp, 5))
+        print(gen_rep(inp, 5))
