@@ -1,12 +1,15 @@
 # Pattern Completion App <!-- omit in toc -->
 
 - [About](#about)
+  - [Our Team](#our-team)
 - [Contribution Guidelines](#contribution-guidelines)
   - [Submitting a Pull Request (PR)](#submitting-a-pull-request-pr)
   - [After your Pull Request is Merged](#after-your-pull-request-is-merged)
 - [Coding Rules](#coding-rules)
   - [Code Style](#code-style)
     - [Python](#python)
+    - [HTML/CSS](#htmlcss)
+    - [JavaScript](#javascript)
 - [Commit Message Guidelines](#commit-message-guidelines)
   - [Commit Message Format](#commit-message-format)
   - [Revert](#revert)
@@ -20,6 +23,13 @@
 ## About
 
 This app is a submission for the [WinHacks 2021 competition](https://winhacks-2021.devpost.com/) as challenged by [Splice Digital](https://splicedigital.com/).
+
+### Our Team
+
+- [Alexander Lotz](https://github.com/alexanderlotz/)
+- [Emily Chu](https://github.com/emily-chu)
+- [Ryan Moon](https://github.com/rm00nkh)
+- [Sean Kyer](https://github.com/seankyer)
 
 ## Contribution Guidelines
 
@@ -99,6 +109,14 @@ All language currently implement their respective Google style guides. Exception
 This project adheres to the [Google Python style guide](https://google.github.io/styleguide/pyguide.html).
 
 Linting is performed using [PyLint](https://google.github.io/styleguide/pylintrc) (Link starts a download).
+
+#### HTML/CSS
+
+This project adheres to the [Google HTML/CSS style guide](https://google.github.io/styleguide/htmlcssguide.html).
+
+#### JavaScript
+
+This project adheres to the [Google JavaScript style guide](https://google.github.io/styleguide/jsguide.html).
 
 ## Commit Message Guidelines
 
