@@ -187,3 +187,7 @@ The footer should contain any information about **Breaking Changes** and is also
 This project's completion is largely thanks to information gathered from publicly available resources including, but not limited to:
 
 - [Structured Patterns in Python](https://www.python.org/dev/peps/pep-0636/)
+- [Making Predictions with Sequences](https://machinelearningmastery.com/sequence-prediction/)
+- [Machine Learning - Linear Regression](https://www.w3schools.com/python/python_ml_linear_regression.asp)
+- [Next Word Prediction Model](https://thecleverprogrammer.com/2020/07/20/next-word-prediction-model/)
+- [Understanding Word N-grams in NLP](https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability-in-natural-language-processing-9d9eef0fa058)
