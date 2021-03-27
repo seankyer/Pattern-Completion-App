@@ -2,7 +2,7 @@ import unittest
 
 # from main import generate
 #      ^ if main is made into a package. Else:
-# mainfile = __import__("../Main.py")
+# mainfile = __import__("../main.py")
 # generate = mainfile.generate
 def generate(arr, length):
   if length == 0:
@@ -103,7 +103,15 @@ class TestPatternAddition2(unittest.TestCase):
   def test_alphabet_numerical(self):
     arr = ["a1", "b2", "c3"]
     self.assertEqual(generate(arr, 2), ["d4", "e5"])
-    
 
+  # 10g is a special case; need regex
+  def test_numerical_alphabet(self):
+    arr = ["5a", "6b", "7d", "8e", "9f" "10g"]
+    self.assertEqual(generate(arr, 2), ["11h", "12i"])
+
+  def test_numerical_multiplied_constant(self):
+    arr = ["1-a", "10-a" "100-a"]
+    self.assertEqual(generate(arr, 2), ["1000-a", "10000-a"])
+    
 if __name__ == '__main__':
     unittest.main()
