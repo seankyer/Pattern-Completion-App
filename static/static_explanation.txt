@@ -1,0 +1,2 @@
+"/static" is the folder that everything front-end related should live. For css, js and images. These are called from
+the templated HTML file using the url_for('static', filename='subdirectory-to-file') method/
