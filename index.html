@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pattern-Completion-App</title>
+    <link rel="shortcut icon" href="img/green-leaf.png"/>
+    <script type="text/javascript" src="javascript/test.js"></script>
+</head>
+
+<body>
+<div align="center" id="greeting">
+    <h1 style="bold">Pattern-Completion-App</h1>
+    <img src="img/green-leaf.png" alt="Green-Leaf" width="100" height="100">
+    <h3 style="semi-bold"></h3>
+</div>
+
+<div>
+    <p>Enter Pattern Details:</p>
+
+    <!-- User input -->
+    <div id="text-entry">
+        <label for="pattern">String Pattern:</label>
+        <input type="text" id="pattern" name="pattern">
+    </div>
+    <br>
+    <div>
+        <label for="repetitions">Number of Desired Repetitions:</label>
+        <input id="repetitions" type="number" min="1" max="10" step="1" value="1" size="4">
+    </div>
+
+    <!-- button to run -->
+    <br><br>
+    <button type="button" onclick="patternTest()">Generator Pattern</button>
+    <br><br>
+    <!-- Output text, set by javascript file -->
+    <h4 id="success-alert"></h4>
+    <p id="output"></p>
+</div>
+
+</body>
+</html>
