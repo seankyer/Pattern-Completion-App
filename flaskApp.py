@@ -1,4 +1,6 @@
 from flask import Flask, render_template, url_for, request, redirect, g
+from main import *
+import numpy as np
 
 # mainfile = __import__("main.py")
 # generate = mainfile.generate
@@ -54,6 +56,9 @@ def gen():
                 # print(request.form.get((str(x)+','+str(y)), ""))
                 globalSeq[x][y] = request.form.get((str(x)+','+str(y)), "")
         # SEND OUTPUT HERE
+        #mat = np.array(globalSeq[:2])
+        #globalSeq[2] = [predict_at_pos(mat, 2, 0), predict_at_pos(mat, 2, 1), predict_at_pos(mat, 2, 2)]
+        globalSeq = generate_pred(globalSeq, 1)
     return render_template("index.html", cols=globalCols, rows=globalRows, message=globalMessage, seq=globalSeq)
 
 

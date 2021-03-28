@@ -45,6 +45,8 @@ def predict_at_pos(mat, r, c=0):
     if not lin_reg_mat_builder(mat):
         if all([len(ele) == 1 for ele in mat]):
             mat = rotate_matrix(mat)
+        if not lin_reg_seq_builder(mat):
+            return False
         mat = lin_reg_seq_builder(mat)
         out = ""
         if r > 0:
