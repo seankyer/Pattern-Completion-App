@@ -42,9 +42,34 @@ def lin_reg_spec(inp_list):
 
 
 def predict_at_pos(mat, r, c=0):
+    tmp = []
+    flat = np.array(rotate_matrix(mat.copy())).flatten()
+    for i in range(len(flat)):
+        if flat[i] is None:
+            mat = lin_reg_seq_builder(np.array([tmp]))
+            out = ""
+            # if r > 0:
+            #     c = r0
+            for row in range(len(mat)):
+                print("Slope: " + str(mat[row][1].slope) + ", Intercept: " + str(mat[row][1].intercept) + ", R: " + str(r) + ", C: " + str(c))
+                print(len(mat[0]))
+                val = int(mat[row][1].slope * (r + c * (len(mat[0]) + 1)) + mat[row][1].intercept)
+                if mat[row][0] == "C":
+                    out += str(letters_from_base26(val, 65))
+                elif mat[row][0] == "L":
+                    out += str(letters_from_base26(val, 97))
+                elif mat[row][0] == "N":
+                    out += str(val)
+                elif mat[row][0] == "S":
+                    out += str(chr(val))
+            return out
+        tmp.append(flat[i])
+
     if not lin_reg_mat_builder(mat):
         if all([len(ele) == 1 for ele in mat]):
             mat = rotate_matrix(mat)
+        if not lin_reg_seq_builder(mat):
+            return False
         mat = lin_reg_seq_builder(mat)
         out = ""
         if r > 0:

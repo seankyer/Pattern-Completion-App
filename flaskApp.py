@@ -1,42 +1,75 @@
-from flask import Flask, render_template, url_for, request, redirect, session
+from flask import Flask, render_template, url_for, request, redirect, g
+from main import *
+import numpy as np
 
 # mainfile = __import__("main.py")
 # generate = mainfile.generate
 
-
-
 def generate(seq, subsetRow, subsetCol, dir, n):
     return [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']]
-    print("hi")
-
 
 app = Flask(__name__)
 
+globalCols = 0
+globalRows = 0
+globalMessage = ""
+globalSeq = []
 
-# @app.route('/generate', methods=['POST'])
-# def gen():
-#     if valid_input(request.form['rows'], request.form['cols'], request.form['seq']):
-#         session['row'] = 5
-#         # determine_direction() ???
-#         out = generate(request.form['seq'],request.form['rows'], request.form['cols'], 'u', 0)
-#         return render_template("index.html", output=out)
+# @app.route('/greenhouse', methods=['POST'])
+# def greenhouse():
+#     c = request.form.get('cols')
+#     r = request.form.get('rows')
+#     if (c.isnumeric() and r.isnumeric() and int(r) > 0 and int(c) > 0):
+#         globalCols = int(c)
+#         globalRows = int(r)
+#         if globalCols > 10:
+#             globalCols = 10
+#             message = "Max cols is 10."
+#         if globalRows > 1000:
+#             globalRows = 1000
+#             message = "Max rows is 1000."
+#     else:
+#         globalCols = 0
+#         globalRows = 0
+#     return render_template("index.html", cols=globalCols, rows=globalRows, message=globalMessage, seq=globalSeq)
 
 
-@app.route('/success/<name>')
-def success(name):
-    return 'welcome %s' % name
+@app.route('/generate', methods=['POST'])
+def gen():
+    globalSeq = []
+    globalCols = int(request.form.get('cols', 0))
+    globalRows = int(request.form.get('rows', 0))
+    globalMessage = ""
+
+    if (int(globalRows) > 0 and int(globalCols) > 0):
+        if globalCols > 10:
+            globalCols = 10
+            message = "Max cols is 10."
+        if globalRows > 1000:
+            globalRows = 1000
+            message = "Max rows is 1000."
+        globalSeq = [["" for j in range(globalRows)] for i in range(globalCols)]
+
+    print(request.form.get('matrix-indicator'))
+    if request.form.get('matrix-indicator'):
+        for x in range(globalCols):
+            for y in range(globalRows):
+                # print(request.form.get((str(x)+','+str(y)), ""))
+                globalSeq[x][y] = request.form.get((str(x)+','+str(y)), "")
+        # SEND OUTPUT HERE
+        #mat = np.array(globalSeq[:2])
+        #globalSeq[2] = [predict_at_pos(mat, 2, 0), predict_at_pos(mat, 2, 1), predict_at_pos(mat, 2, 2)]
+        testSeq = generate_pred(globalSeq, 1)
+        if testSeq:
+            globalSeq = testSeq
+        else:
+            globalMessage = "No pattern found."
+    return render_template("index.html", cols=globalCols, rows=globalRows, message=globalMessage, seq=globalSeq)
 
 
-@app.route('/test', methods=['GET', 'POST'])
-def test_button():
-    if request.method == 'POST':
-        user = request.form['name']
-        return redirect(url_for('success', name=user))
-
-
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template("index.html", generateFn=generate)
+    return render_template("index.html", cols=0, rows=0, message="", seq=[])
 
 
 if __name__ == "__main__":

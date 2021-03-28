@@ -1,3 +1,4 @@
+import numpy as np
 import re
 
 
@@ -50,12 +51,12 @@ def build_type(inp_string):
 
 
 def is_valid_seq(seq_mat):
-    seq_list = seq_mat.copy().flatten()
+    seq_list = np.array(seq_mat).copy().flatten()
     seq_type = ""
     for pos in range(len(seq_list)):
         if seq_type == "":
             seq_type = build_type(seq_list[pos])
-        elif seq_type != build_type(seq_list[pos]):
+        elif (seq_type != build_type(seq_list[pos])):
             return False
     return seq_type
 

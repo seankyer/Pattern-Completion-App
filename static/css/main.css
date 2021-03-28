@@ -1,3 +1,8 @@
 #output {
   word-break:break-all;
 }
+
+#matrix {
+  word-wrap:nowrap;
+  overflow: scroll;
+}

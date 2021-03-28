@@ -29,46 +29,50 @@ Contributors/Team Members:
 
 <div>
     <!-- User input: columns, rows-->
-    <form>
-        <div id="row">
+    <form action="{{ url_for('gen') }}" method="post">
+        <div align="center">
             <label for="rows">Rows:</label>
-            <input type="text" id="rows" name="rows">
+            <input type="number" id="rows" name="rows" value="{{rows}}" min="0">
         </div>
-        <div id="col">
+        <div align="center">
             <label for="cols">Columns:</label>
-            <input type="text" id="cols" name="cols">
+            <input type="number" id="cols" name="cols" value="{{cols}}" min="0">
         </div>
-        <button type="button" onclick="addRowCol()">Set up input</button>
+        <!-- <button type="button" onclick="addRowCol()">Set up greenhouse</button> -->
+    <!-- </form> -->
+    <br>
+    {% if (message != "") %}
+        <h5>{{message}}</h5>
+    {% endif %}
+
+    <!-- <form action="{{ url_for('gen') }}" id="matrix" method="post"> -->
+        
+        {% if rows <= 0 and cols <= 0 %}
+            <input id="matrix-indicator" name="matrix-indicator" hidden value="{{False}}">
+            <button type="submit">Set up greenhouse</button>
+        {% else %}
+            <input id="matrix-indicator" name="matrix-indicator" hidden value="{{True}}">
+            <div id="matrix" style="overflow-x:scroll;">
+                {% for y in range(rows) %}
+                    <label for="{{'row'~y}}">{{'Row '~(y+1)}}</label>
+                    <div id="{{'row'~y}}" style="white-space:nowrap;">
+                    {% for x in range(cols) %}
+                        <label for="{{x ~ ',' ~ y}}">{{(x+1) ~ '.' ~ (y+1)}}</label>
+                        <input type="text" id="{{x ~ ',' ~ y}}" name="{{x ~ ',' ~ y}}" value="{{seq[x][y]}}"/>
+                    {% endfor %}
+                    </div>
+                    <br>
+                {% endfor %}
+            </div>
+            <br>
+            <input type="submit" value="Predict Pattern, Python!!"/>
+        {% endif %}
     </form>
     <br>
-
-    <div id="matrix">
-        <!--rows and columns are added here-->
-    </div>
-    <p id="dimensions-tag"></p>
-    <br>
-
-    <div>
-        <label for="repetitions">Number of Predictions:</label>
-        <input id="repetitions" type="number" min="1" max="10" step="1" value="1" size="4">
-    </div>
-
-     <!-- User input: old-->
-    <br>
-     <div id="pattern-entry">
-        <button type="button" onclick="{{generateFn(0,0,0,0,0)}}" onfocus="this.value=''">
-            Predict Pattern, Python!
-        </button>
-    </div>
-
-    <!-- testing http calls to flask -->
-    <form action="http://localhost:5000/test" method="post">
-        <p>Test redirect, POST method</p>
-        <input type = "text" name = "name" />
-        <input type="submit" value="submit">Python Test</input>
+    <form action="{{ url_for('index') }}" method="post">
+        <input type="submit" value="Reset"/>
     </form>
 
-    <h1 id="pythonOutput"></h1>
 </div>
 
 </body>
