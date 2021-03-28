@@ -41,22 +41,44 @@ def lin_reg_spec(inp_list):
     return res
 
 
-def predict_at_pos(mat, r, c):
-    out = ""
-    for row in range(len(mat)):
-        val = int(mat[row][1].slope * c + mat[row][1].intercept + mat[row][2].slope * r)
-        if mat[row][0] == "C":
-            out += str(letters_from_base26(val, 65))
-        elif mat[row][0] == "L":
-            out += str(letters_from_base26(val, 97))
-        elif mat[row][0] == "N":
-            out += str(val)
-        elif mat[row][0] == "S":
-            out += str(chr(val))
-    return out
+def predict_at_pos(mat, r, c=0):
+    if not lin_reg_mat_builder(mat):
+        if all([len(ele) == 1 for ele in mat]):
+            mat = rotate_matrix(mat)
+        mat = lin_reg_seq_builder(mat)
+        out = ""
+        if r > 0:
+            c = r
+        for row in range(len(mat)):
+            val = int(mat[row][1].slope * c + mat[row][1].intercept)
+            if mat[row][0] == "C":
+                out += str(letters_from_base26(val, 65))
+            elif mat[row][0] == "L":
+                out += str(letters_from_base26(val, 97))
+            elif mat[row][0] == "N":
+                out += str(val)
+            elif mat[row][0] == "S":
+                out += str(chr(val))
+        return out
+    else:
+        mat = lin_reg_mat_builder(mat)
+        out = ""
+        for row in range(len(mat)):
+            val = int(mat[row][1].slope * c + mat[row][1].intercept + mat[row][2].slope * r)
+            if mat[row][0] == "C":
+                out += str(letters_from_base26(val, 65))
+            elif mat[row][0] == "L":
+                out += str(letters_from_base26(val, 97))
+            elif mat[row][0] == "N":
+                out += str(val)
+            elif mat[row][0] == "S":
+                out += str(chr(val))
+        return out
 
 
 def lin_reg_mat_builder(mat):
+    if len(mat) == 1 or all([len(ele) == 1 for ele in mat]):
+        return False
     if not (matrix_trim(mat) is True):
         mat = matrix_trim(mat)
     s_t = is_valid_seq(mat)
@@ -80,6 +102,24 @@ def lin_reg_mat_builder(mat):
             if special_is_const([l[1:] for l in parse_pattern(s_t, mat[0])][pos]):
                 t[pos].append(lin_reg_spec([l[1:] for l in parse_pattern(s_t, mat[0])][pos]))
                 t[pos].append(lin_reg_spec([l[1:] for l in parse_pattern(s_t, rot_mat[0])][pos]))
+    return t
+
+
+def lin_reg_seq_builder(mat):
+    s_t = is_valid_seq(mat)
+    if not s_t:
+        return False
+    t = [[char]for char in s_t]
+    for pos in range(len(t)):
+        if t[pos][0] == "C":
+            t[pos].append(lin_reg_letters([l[1:] for l in parse_pattern(s_t, mat[0])][pos], 65))
+        elif t[pos][0] == "L":
+            t[pos].append(lin_reg_letters([l[1:] for l in parse_pattern(s_t, mat[0])][pos], 97))
+        elif t[pos][0] == "N":
+            t[pos].append(lin_reg_nums([l[1:] for l in parse_pattern(s_t, mat[0])][pos]))
+        elif t[pos][0] == "S":
+            if special_is_const([l[1:] for l in parse_pattern(s_t, mat[0])][pos]):
+                t[pos].append(lin_reg_spec([l[1:] for l in parse_pattern(s_t, mat[0])][pos]))
     return t
 
 
