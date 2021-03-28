@@ -51,7 +51,7 @@ def gen():
     if request.form.get('matrix-indicator'):
         for x in range(globalCols):
             for y in range(globalRows):
-                print(request.form.get((str(x)+','+str(y)), ""))
+                # print(request.form.get((str(x)+','+str(y)), ""))
                 globalSeq[x][y] = request.form.get((str(x)+','+str(y)), "")
         # SEND OUTPUT HERE
     return render_template("index.html", cols=globalCols, rows=globalRows, message=globalMessage, seq=globalSeq)

@@ -49,16 +49,18 @@ Contributors/Team Members:
             <button type="submit">Set up greenhouse</button>
         {% else %}
             <input id="matrix-indicator" name="matrix-indicator" hidden value="{{True}}">
-            {% for x in range(cols) %}
-                <label for="{{'row'~x}}">{{'Row '~(x+1)}}</label>
-                <div id="{{'row'~x}}">
+            <div id="matrix" style="overflow-x:scroll;">
                 {% for y in range(rows) %}
-                    <label for="{{x ~ ',' ~ y}}">{{(x+1) ~ '.' ~ (y+1)}}</label>
-                    <input type="text" id="{{x ~ ',' ~ y}}" name="{{x ~ ',' ~ y}}" value="{{seq[x][y]}}"/>
+                    <label for="{{'row'~y}}">{{'Row '~(y+1)}}</label>
+                    <div id="{{'row'~y}}" style="white-space:nowrap;">
+                    {% for x in range(cols) %}
+                        <label for="{{x ~ ',' ~ y}}">{{(x+1) ~ '.' ~ (y+1)}}</label>
+                        <input type="text" id="{{x ~ ',' ~ y}}" name="{{x ~ ',' ~ y}}" value="{{seq[x][y]}}"/>
+                    {% endfor %}
+                    </div>
+                    <br>
                 {% endfor %}
-                </div>
-                <br>
-            {% endfor %}
+            </div>
             <br>
             <input type="submit" value="Predict Pattern, Python!!"/>
         {% endif %}
