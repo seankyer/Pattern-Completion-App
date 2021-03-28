@@ -24,7 +24,6 @@ def lin_reg_letters(inp_list, offset):
     res = stats.linregress(xs, inp_list)
     return res
 
-
 def predict_at_pos(mat, r, c):
     out = ""
     for row in range(len(mat)):
@@ -82,3 +81,37 @@ def has_valid_regs(mat, s_t):
                     if reg.slope != lin_reg_nums([l[1:] for l in parse_pattern(s_t, mat[row])][i]).slope:
                         return False
     return True
+
+# Generates predictions on parsed data and manages
+# direction of sequences to appropriate lin-reg methods
+# copied from previously pushed main.py function
+def generate_predictions_1d(p, n):
+    out = []
+    for x in range(n):
+        out.append("")
+
+    # for i in range(n):
+    #     out.append("")
+    for ele in p:
+        seq_list = ele[1:]
+        if ele[0] == "C":
+            res = lin_reg_letters(seq_list, 65)
+            res_v = []
+            for x in range(n):
+                res_v.append(letters_from_base26(int(res.intercept + res.slope * (len(p) + x + 1)), 65))
+            list_concat(out, res_v)
+        elif ele[0] == "L":
+            res = lin_reg_letters(seq_list, 97)
+            res_v = []
+            for x in range(n):
+                res_v.append(letters_from_base26(int(res.intercept + res.slope * (len(p) + x + 1)), 97))
+            list_concat(out, res_v)
+        elif ele[0] == "N":
+            res = lin_reg_nums(seq_list)
+            res_v = []
+            for x in range(n):
+                res_v.append(int(res.intercept + res.slope * (len(p) + x + 1)))
+            # list_concat(out, res_v)
+            # res_v = [int(res.intercept + res.slope * (len(p) + 1))]
+            list_concat(out, res_v)
+    return out

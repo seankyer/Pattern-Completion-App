@@ -49,3 +49,18 @@ def is_valid_seq(seq_mat):
         elif seq_type != build_type(seq_list[pos]):
             return False
     return seq_type
+
+# includes types of given input
+# copied from previously pushed main.py
+def generate_1d_str(inp):
+    seq_type = ""
+    seq_valid = True
+    for pos in range(len(inp)):
+        if seq_type == "":
+            seq_type = build_type(inp[pos])
+        else:
+            seq_valid = seq_type == build_type(inp[pos])
+    if seq_valid: 
+        return parse_pattern(seq_type, inp)
+    else:
+        return False

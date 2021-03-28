@@ -30,3 +30,10 @@ def letters_from_base26(val, offset):
         if not last_ele:
             val -= 1
     return out
+
+# Combines values at each index of two same-length lists
+# copied from previously pushed main.py
+def list_concat(l1, l2):
+    if len(l1) == len(l2):
+        for i in range(len(l1)):
+            l1[i] = str(l1[i]) + str(l2[i])
