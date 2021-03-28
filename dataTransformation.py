@@ -25,6 +25,8 @@ def letters_from_base26(val, offset):
     last_ele = False
     while not last_ele:
         out = chr(val % 26 + offset) + out
-        last_ele = val <= 26
+        last_ele = val < 26
         val = int((val - (val % 26)) / 26)
+        if not last_ele:
+            val -= 1
     return out
