@@ -3,7 +3,8 @@ from dataTransformation import *
 from patternProcessing import *
 
 
-# Takes in a sequence of numbers and returns the next n predicted elements
+# Takes in a sequence of numbers and returns the linear regression
+# of their pattern
 def lin_reg_nums(inp_list):
     nums = []
     for i in range(len(inp_list)):
@@ -14,13 +15,28 @@ def lin_reg_nums(inp_list):
     return res
 
 
-# Takes in a sequence of letters and returns the next n predicted elements
+# Takes in a sequence of letters and returns the linear regression
+# of their pattern
+#
 # Adjusts for upper/lowercase using offset
 def lin_reg_letters(inp_list, offset):
     sz = len(inp_list)
     xs = range(sz)
     for pos in range(len(inp_list)):
         inp_list[pos] = to_base26(inp_list[pos], offset)
+    res = stats.linregress(xs, inp_list)
+    return res
+
+
+# Takes in a sequence of special characters and returns the linear regression
+# of their pattern
+#
+# Currently supports constant patterns only
+def lin_reg_spec(inp_list):
+    sz = len(inp_list)
+    xs = range(sz)
+    for pos in range(len(inp_list)):
+        inp_list[pos] = ord(inp_list[pos])
     res = stats.linregress(xs, inp_list)
     return res
 
@@ -33,8 +49,10 @@ def predict_at_pos(mat, r, c):
             out += str(letters_from_base26(val, 65))
         elif mat[row][0] == "L":
             out += str(letters_from_base26(val, 97))
-        else:
+        elif mat[row][0] == "N":
             out += str(val)
+        elif mat[row][0] == "S":
+            out += str(chr(val))
     return out
 
 
@@ -58,6 +76,10 @@ def lin_reg_mat_builder(mat):
         elif t[pos][0] == "N":
             t[pos].append(lin_reg_nums([l[1:] for l in parse_pattern(s_t, mat[0])][pos]))
             t[pos].append(lin_reg_nums([l[1:] for l in parse_pattern(s_t, rot_mat[0])][pos]))
+        elif t[pos][0] == "S":
+            if special_is_const([l[1:] for l in parse_pattern(s_t, mat[0])][pos]):
+                t[pos].append(lin_reg_spec([l[1:] for l in parse_pattern(s_t, mat[0])][pos]))
+                t[pos].append(lin_reg_spec([l[1:] for l in parse_pattern(s_t, rot_mat[0])][pos]))
     return t
 
 

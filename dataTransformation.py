@@ -32,7 +32,7 @@ def letters_from_base26(val, offset):
     return out
 
 
-#trims matrix so that all rows and columns are the same length
+# trims matrix so that all rows and columns are the same length
 def matrix_trim(mat):
     col_diff = 0
     row_diff = 0

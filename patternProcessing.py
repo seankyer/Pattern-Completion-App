@@ -1,5 +1,6 @@
 import re
 
+
 def parse_pattern(s_t, pat):
     p = pat.copy()
     pattern_arr = []
@@ -19,6 +20,10 @@ def parse_pattern(s_t, pat):
                 mat = re.search('^[0-9]+', p[m])
                 pattern_arr[n].append(mat.group(0))
                 p[m] = re.sub(r'^[0-9]+', "", p[m], 1)
+            elif s_t[n] == "S":
+                mat = re.search('^[^A-Za-z0-9]+', p[m])
+                pattern_arr[n].append(mat.group(0))
+                p[m] = re.sub(r'^[^A-Za-z0-9]+', "", p[m], 1)
     return pattern_arr
 
 
@@ -37,6 +42,10 @@ def build_type(inp_string):
         if m is not None:
             inp_type += "L"
             inp_string = re.sub(r'^[a-z]', "", inp_string, 1)
+        m = re.search('^[^A-Za-z0-9]+', inp_string)
+        if m is not None:
+            inp_type += "S"
+            inp_string = re.sub(r'^[^A-Za-z0-9]+', "", inp_string, 1)
     return inp_type
 
 
@@ -49,3 +58,7 @@ def is_valid_seq(seq_mat):
         elif seq_type != build_type(seq_list[pos]):
             return False
     return seq_type
+
+
+def special_is_const(seq_list):
+    return seq_list.count(seq_list[0]) == len(seq_list)
