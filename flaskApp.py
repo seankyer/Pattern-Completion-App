@@ -39,6 +39,7 @@ def gen():
     globalSeq = []
     globalCols = int(request.form.get('cols', 0))
     globalRows = int(request.form.get('rows', 0))
+    globalMessage = ""
 
     if (int(globalRows) > 0 and int(globalCols) > 0):
         if globalCols > 10:
