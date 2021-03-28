@@ -58,7 +58,11 @@ def gen():
         # SEND OUTPUT HERE
         #mat = np.array(globalSeq[:2])
         #globalSeq[2] = [predict_at_pos(mat, 2, 0), predict_at_pos(mat, 2, 1), predict_at_pos(mat, 2, 2)]
-        globalSeq = generate_pred(globalSeq, 1)
+        testSeq = generate_pred(globalSeq, 1)
+        if testSeq:
+            globalSeq = testSeq
+        else:
+            globalMessage = "No pattern found."
     return render_template("index.html", cols=globalCols, rows=globalRows, message=globalMessage, seq=globalSeq)
 
 

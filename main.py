@@ -17,7 +17,7 @@ def generate_pred(lis, rep):
     for row in range(rows):
         for col in range(cols):
             if not predict_at_pos(mat, row, col):
-                out[row][col] = 0
+                return False
             else:
                 out[row][col] = predict_at_pos(mat, row, col)
     return out

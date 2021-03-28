@@ -41,6 +41,9 @@ Contributors/Team Members:
         <!-- <button type="button" onclick="addRowCol()">Set up greenhouse</button> -->
     <!-- </form> -->
     <br>
+    {% if (message != "")}
+        <h5>{{message}}</h5>
+    {% endif %}
 
     <!-- <form action="{{ url_for('gen') }}" id="matrix" method="post"> -->
         
